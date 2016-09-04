@@ -12,42 +12,20 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     Button startButton;
+    Button button0;
+    Button button1;
+    Button button2;
+    Button button3;
+    TextView sumTextView;
+
     ArrayList<Integer> answers = new ArrayList<Integer>();
     TextView resultTextView;
+    TextView pointsTextView;
+    int numberOfQuestions = 0;
     int locationOfCorrectAnswer;
     int score = 0;
 
-    public void chooseAnswer(View view)
-    {
-        if(view.getTag().toString().equals(Integer.toString(locationOfCorrectAnswer))){
-
-            score = score + 1;
-            resultTextView.setText("Correct !");
-        }
-        else
-            resultTextView.setText("Incorrect !");
-
-    }
-
-    public void start(View view){
-
-        startButton.setVisibility(view.INVISIBLE);
-
-
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        startButton = (Button) findViewById(R.id.startButton);
-        TextView sumTextView = (TextView) findViewById(R.id.sumTextView);
-        Button button0 = (Button) findViewById(R.id.button0);
-        Button button1 = (Button) findViewById(R.id.button1);
-        Button button2 = (Button) findViewById(R.id.button2);
-        Button button3 = (Button) findViewById(R.id.button3);
-        resultTextView = (TextView)findViewById(R.id.resultTextView);
+    public void generateQuestions(){
 
         Random rand = new Random();
 
@@ -56,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
         sumTextView.setText(Integer.toString(a)+"+"+Integer.toString(b));
         locationOfCorrectAnswer = rand.nextInt(4);
+
+        answers.clear();
 
         int incorrectAnswer;
 
@@ -80,6 +60,46 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public void chooseAnswer(View view)
+    {
+        if(view.getTag().toString().equals(Integer.toString(locationOfCorrectAnswer))){
+
+            score = score + 1;
+            resultTextView.setText("Correct !");
+        }
+        else
+            resultTextView.setText("Incorrect !");
+
+        locationOfCorrectAnswer++;
+        pointsTextView.setText(Integer.toString(score)+"/"+Integer.toString(numberOfQuestions));
+        generateQuestions();
+    }
+
+    public void start(View view){
+
+        startButton.setVisibility(view.INVISIBLE);
+
+
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        startButton = (Button) findViewById(R.id.startButton);
+        sumTextView = (TextView) findViewById(R.id.sumTextView);
+        button0 = (Button) findViewById(R.id.button0);
+        button1 = (Button) findViewById(R.id.button1);
+        button2 = (Button) findViewById(R.id.button2);
+        button3 = (Button) findViewById(R.id.button3);
+        resultTextView = (TextView)findViewById(R.id.resultTextView);
+        pointsTextView = (TextView)findViewById(R.id.pointsTextView);
+
+
+        generateQuestions();
 
     }
 }
